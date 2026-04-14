@@ -4,8 +4,10 @@ import com.digitalskies.kubernetes_demo.auth.dto.AuthRequest;
 import com.digitalskies.kubernetes_demo.auth.dto.RegisterResponse;
 import com.digitalskies.kubernetes_demo.auth.dto.TokenPair;
 import com.digitalskies.kubernetes_demo.auth.dto.User;
+import com.digitalskies.kubernetes_demo.todo.ToDoService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,8 +23,11 @@ public class AuthController {
 
     AuthService authService;
 
-    public AuthController(AuthService authService) {
+    ToDoService toDoService;
+
+    public AuthController(AuthService authService, ToDoService toDoService) {
         this.authService = authService;
+        this.toDoService = toDoService;
     }
 
     Logger logger = Logger.getLogger(AuthController.class.getName());
@@ -44,6 +49,7 @@ public class AuthController {
     }
 
 
+    @Transactional
     @PostMapping(path = "/register")
     String register(@Valid User user, BindingResult result, Model model){
 
@@ -55,6 +61,7 @@ public class AuthController {
         logger.info("Registering user: "+user);
 
         authService.register(user);
+        toDoService.addInitialToDo(user.getEmail());
         return "redirect:/login";
     }
 

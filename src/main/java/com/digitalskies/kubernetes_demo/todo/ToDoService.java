@@ -40,6 +40,18 @@ public class ToDoService {
         return toDoRepository.findByUsername(username);
     }
 
+    public void addInitialToDo(String username){
+        ToDo todo= new ToDo();
+        todo.setUsername(username);
+        todo.setDescription("Learn Kubernetes");
+        todo.setTargetDate(LocalDate.now().plusMonths(1));
+        todo.setDone(false);
+
+        addToDo(todo);
+
+
+    }
+
     ToDo findByID(long id){
 
         return toDoRepository.findById(id).get();
