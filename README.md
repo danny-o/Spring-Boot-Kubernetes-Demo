@@ -6,13 +6,13 @@ A Spring Boot application that demonstrates how to configure and deploy an appli
 
 ## 📋 Table of Contents
 
-- [Prerequisites](#prerequisites)
-- [Project Structure](#project-structure)
-- [Setup and Running the App](#setup-and-running-the-app)
-- [Accessing the App](#accessing-the-app)
-- [Useful kubectl Commands](#useful-kubectl-commands)
-- [Spring Boot Tech Stack](#spring-boot-tech-stack)
-- [Teardown](#teardown)
+- [Prerequisites](#-prerequisites)
+- [Project Structure](#-project-structure)
+- [Setup and Running the App](#-setup-and-running-the-app)
+- [Accessing the App](#-accessing-the-app)
+- [Useful kubectl Commands](#-useful-kubectl-commands)
+- [Spring Boot Tech Stack](#-spring-boot-tech-stack)
+- [Teardown](#-teardown)
 
 ---
 
