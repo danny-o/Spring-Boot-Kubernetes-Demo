@@ -1,6 +1,7 @@
 # 🚀 Spring Boot on Kubernetes — Demo Project
 
-A Spring Boot application that demonstrates how to configure and deploy an application using Kubernetes. It includes practical examples of key Kubernetes resources such as Deployments, Services, Secrets, and ConfigMaps and illustrates how multi-component applications can be wired together within a Kubernetes environment.
+A Spring Boot application that demonstrates how to configure and deploy an application using [Kubernetes](https://kubernetes.io/). It includes practical examples of key Kubernetes resources such as Deployments, Services, Secrets, and ConfigMaps and illustrates how multi-component applications can be wired together within a Kubernetes environment.
+While the guide below entails running Kubernetes locally using Minikube, the Kubernetes resources and **kubectl** commands shown are applicable to applications running in production environments.
 
 ---
 
@@ -55,7 +56,7 @@ minikube version
 
 ### 1. Start Minikube
 
-Start Minikube using Docker as the driver. Since this project uses Docker for building the app image, specifying `--driver=docker` ensures Minikube runs as a Docker container and keeps everything consistent. Minikube can auto-detect the driver, but being explicit avoids surprises on machines that have multiple hypervisors available.
+Start Minikube using Docker as the driver. Since this project uses Docker for building the app image, specifying `--driver=docker` ensures Minikube runs as a Docker container and keeps everything consistent.
 
 ```bash
 minikube start --driver=docker
@@ -68,15 +69,6 @@ minikube image build -t webapp:v1 .
 ```
 
 This builds from the `Dockerfile` in the current directory and tags the image as `webapp:v1`, which matches the image name configured in `infra/web-app.yaml`.
-
-> ⚠️ Make sure `web-app.yaml` has `imagePullPolicy: Never` (or `IfNotPresent`) on the container spec. Without this, Kubernetes will attempt to pull `webapp:v1` from Docker Hub, fail with `ErrImagePull`, and the pod will never start.
->
-> ```yaml
-> containers:
->   - name: webapp
->     image: webapp:v1
->     imagePullPolicy: Never
-> ```
 
 ### 3. Apply the Kubernetes manifests
 
@@ -124,7 +116,7 @@ This prints a URL (e.g. `http://192.168.49.2:31234`) you can open in your browse
 
 ## 🛠️ Useful kubectl Commands
 
-These commands help you explore, inspect, and debug the running application.
+These commands help you explore, inspect, and debug the running application. These commands are also applicable to production applications as kubectl is the command-line interface for Kubernetes.
 
 ### 📋 List resources
 
