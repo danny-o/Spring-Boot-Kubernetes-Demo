@@ -1,6 +1,7 @@
 # 🚀 Spring Boot on Kubernetes — Demo Project
 
 A Spring Boot application that demonstrates how to configure and deploy an application using [Kubernetes](https://kubernetes.io/). It includes practical examples of key Kubernetes resources such as Deployments, Services, Secrets, and ConfigMaps and illustrates how multi-component applications can be wired together within a Kubernetes environment.
+
 While the guide below entails running Kubernetes locally using Minikube, the Kubernetes resources and **kubectl** commands shown are applicable to applications running in production environments.
 
 ---
