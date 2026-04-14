@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: kubernetes-demo
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: ${DB_DIALECT}
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    validate-on-migrate: true
+server:
+  port: 8080
+jwt:
+  secret: ${JWT_SECRET_KEY_BASE64}
+logging:
+  level:
+    com.digitalskies: DEBUG
+

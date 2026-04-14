@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My ToDo Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f0f2f5;
+            font-family: 'Inter', sans-serif;
+            color: #1a202c;
+        }
+        /* Navigation Styling */
+        .navbar {
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 1rem 2rem;
+        }
+        /* Card & Content Styling */
+        .todo-container { max-width: 900px; margin: 40px auto; }
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+            background: white;
+        }
+        .table thead th {
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            color: #718096;
+            border-top: none;
+            background: #f8fafc;
+        }
+        .todo-description { font-size: 1.05rem; }
+        .done-text { text-decoration: line-through; color: #a0aec0; }
+
+        /* Buttons & Badges */
+        .btn-add { font-weight: 600; border-radius: 8px; padding: 0.6rem 1.2rem; }
+        .badge { padding: 0.5em 0.8em; border-radius: 6px; font-weight: 600; }
+        .action-link {
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-left: 10px;
+            transition: color 0.2s;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar d-flex justify-content-between align-items-center">
+    <div class="navbar-brand fw-bold text-primary fs-4">TaskMaster</div>
+    <div>
+        <form th:action="@{/auth/logout}"  class="m-0">
+            <button type="submit" class="btn btn-outline-danger btn-sm px-3 fw-bold">Logout</button>
+        </form>
+    </div>
+</nav>
+
+<div class="container todo-container">
+    <div class="d-flex justify-content-between align-items-end mb-4">
+        <div>
+            <h1 class="fw-bold mb-1">Hello!</h1>
+            <p class="text-muted">Here is what's on your plate today.</p>
+        </div>
+        <a th:href="@{/add-todo}" class="btn btn-primary btn-add shadow-sm">+ Create Task</a>
+    </div>
+
+    <div class="card overflow-hidden">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead>
+                <tr>
+                    <th class="ps-4">Description</th>
+                    <th>Target Date</th>
+                    <th class="text-center">Status</th>
+                    <th class="text-end pe-4">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="todo : ${ToDos}">
+                    <td class="ps-4">
+                            <span th:class="${todo.done} ? 'todo-description done-text' : 'todo-description fw-semibold'"
+                                  th:text="${todo.description}">Task</span>
+                    </td>
+                    <td>
+                        <div class="d-flex align-items-center text-muted small">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-calendar3 me-2" viewBox="0 0 16 16">
+                                <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z"/>
+                                <path d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+                            </svg>
+                            <span th:text="${#temporals.format(todo.targetDate, 'MMM dd, yyyy')}">Date</span>
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <span th:if="${todo.done}" class="badge bg-success-subtle text-success border border-success-subtle">Completed</span>
+                        <span th:if="${!todo.done}" class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle">In Progress</span>
+                    </td>
+                    <td class="text-end pe-4">
+                        <a th:href="@{/update-todo(id=${todo.id})}" class="action-link text-secondary">Edit</a>
+                        <a th:href="@{/delete-todo(id=${todo.id})}"
+                           class="action-link text-danger"
+                           onclick="return confirm('Delete this task?')">Delete</a>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(ToDos)}">
+                    <td colspan="4" class="text-center py-5 text-muted">
+                        No tasks found. Time to relax! ☕
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

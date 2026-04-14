@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Account - ToDo App</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f8f9fa; }
+        .auth-card { max-width: 400px; margin-top: 80px; }
+    </style>
+</head>
+<body>
+
+<div class="container d-flex justify-content-center">
+    <div class="card auth-card shadow-sm w-100">
+        <div class="card-body p-4">
+            <h2 class="card-title text-center mb-4">Register</h2>
+
+            <form th:action="@{/auth/register}" th:object="${user}" method="post">
+
+                <div class="mb-3">
+                    <label class="form-label">Email address</label>
+                    <input type="email" th:field="*{email}"
+                           th:classappend="${#fields.hasErrors('email')} ? 'is-invalid' : ''"
+                           class="form-control" placeholder="name@example.com">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Password</label>
+                    <input type="password" th:field="*{hashedPassword}"
+                           th:classappend="${#fields.hasErrors('hashedPassword')} ? 'is-invalid' : ''"
+                           class="form-control" placeholder="Minimum 8 characters">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('hashedPassword')}" th:errors="*{hashedPassword}"></div>
+                </div>
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-success">Create Account</button>
+                </div>
+            </form>
+
+            <div class="text-center mt-3">
+                <a th:href="@{/auth/login}" class="text-decoration-none small">Already have an account? Login</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
