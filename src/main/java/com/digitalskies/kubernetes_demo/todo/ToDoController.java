@@ -34,8 +34,6 @@ public class ToDoController {
     @RequestMapping("/")
     String listToDo(ModelMap modelMap){
 
-
-
         var toDos = toDoService.findByUserName(getLoggedInUsername());
         modelMap.addAttribute("ToDos",toDos);
 

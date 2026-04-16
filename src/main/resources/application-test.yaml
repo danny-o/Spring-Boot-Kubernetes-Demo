@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: kubernetes-demo-test
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+  flyway:
+    enabled: false
+  security:
+    user:
+      name: "test"
+      password: "password"
+server:
+  port: 8080
+jwt:
+  secret: "V0ljeXJWQTRYRGs5TGRpaHpIQlEzYUpGcGxlVGI1MGFSZTF4SWJXK3l2VT0="
+logging:
+  level:
+    com.digitalskies: DEBUG
+
